@@ -24,7 +24,7 @@ Unska 3, 10000 Zagreb, Croatia\\
           
          
 \abstract{
-Humor is an inherently subjective matter, as can be seen in the Humicroedit dataset's annotator grades which diverge greatly for higher averages, which this paper suggests might require an annotation analysis method different than those traditionally used on high-agreement datasets.
+Humor is an inherently subjective matter, as can be seen in the Humicroedit dataset's annotator grades which diverge greatly for higher averages, which this paper suggests might require an annotation analysis method different than those traditionally used on high-agreement datasets. In order to achieve a more evenly distributed labeling system, this paper uses a weighted mean and a variety of methods to determine the ideal set of weights, and then compares performance on dataset with the regular mean.
 }
 
 \begin{document}
@@ -33,30 +33,23 @@ Humor is an inherently subjective matter, as can be seen in the Humicroedit data
 
 \section{Introduction}
 
-This section is the introduction to your paper. Introduction should not be too elaborate, as that is what other sections are for (the Introduction should definitely not spill over to the second page). 
+Artificial intelligence has been making major strides recently both in terms of development and practical usage, especially with the advent of LLMs such as ChatGPT as well as stable diffusion models such as Midjourney. However, certain tasks still remain outside its grasp. 
 
-This is the second paragraph of the introduction. In \LaTeX , paragraphs are separated by inserting an empty line in between them.  Avoid very large paragraphs (larger than half of the page height), but also avoid tiny paragraphs (e.g., one-sentence paragraphs).
+One such task is the detection, analysis, and generation of humor, a task that continues to elude the methods used. And unlike humor recognition (Khodak et al., 2017; Davidov et al., 2010; Barbieri and Saggion, 2014; Reyes et al., 2012; Cattle and Ma, 2018; Bertero and Fung, 2016; Yang et al., 2015), humor generation using artificial intelligence has proven especially tasking. One obstacle in this line of research is the scarcity of public datasets, and even greater scarcity - if not outright absence - of topic-appropriate public datasets.
 
-\section{Second section}
+One large problem in this field of study is bias, because humor is as subjective as it is complex which makes it significantly challenging to tackle from a natural language analysis/synthesis standpoint.
+
+There are two common approaches to this problem in terms of reducing domain size and therefore annotator bias, one being to focus on a specific domain (TODO: insert citations) and the other being to focus on a specific research topic.
+
+The underlying paper of this paper, \textit{“President Vows to Cut Taxes Hair”:
+Dataset and Analysis of Creative Text Editing for Humorous Headlines} (Hossain et al., 2019), provides one dataset that is an example of the latter. However, as noted in the dataset, 
+
+\section{Related Work}
 
 In scientific papers, this section usually (but not necessarily) briefly describes the related research and what makes the presented approach different from it.
 
-\subsection{First subsection}
-\label{sec:first}
-
-This is a subsection of the second section.
-
-\subsection{Second subsection}
-
-This is the second subsection of the second section. Referencing the (sub)sections in text is performed as follows: ``in Section~\ref{sec:first} we have shown \dots''.
-
-\subsubsection{Sub-subsection example} 
-
-This is a sub-subsection. If possible, it is better to avoid sub-subsections. 
-
-\section{Extent of the paper}
-
-The paper should have a minimum of 3 and a maximum of 4 pages, plus an additional page for references.
+\section{The direct underlying paper}
+\subsection{•}
 
 \section{Figures and tables}
 
@@ -66,8 +59,8 @@ Here is an example on how to include figures in the paper. Figures are included 
 
 \begin{figure}
 \begin{center}
-\includegraphics[width=\columnwidth]{drawing.pdf}
-\caption{This is the figure caption. Full sentences should be followed with a dot. The caption should be placed \textit{below} the figure. Caption should be short; details should be explained in the text.}
+\includegraphics[width=\columnwidth]{topics_disproportion.pdf}
+\caption{As we can see on this chart, a disproportionate amount of headline edits has been written on the topic of Donald J. Trump, a notable and controversial media personality and then-incumbent (45th) president of the United States of America.}
 \label{fig:figure1}
 \end{center}
 \end{figure}

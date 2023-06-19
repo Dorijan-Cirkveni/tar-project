@@ -1,0 +1,10 @@
+The paper should have a minimum of 3
+and a maximum of 4 pages,
+plus an additional page for references.
+
+\subsection{First subsection}
+\label{sec:first}
+~\ref{sec:first}
+
+To-do (code):
+-check entries with Trump
