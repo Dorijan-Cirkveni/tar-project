@@ -24,7 +24,7 @@ Unska 3, 10000 Zagreb, Croatia\\
           
          
 \abstract{
-Humor is an inherently subjective matter, as can be seen in the Humicroedit dataset's annotator grades which diverge greatly for higher averages, which this paper suggests might require an annotation analysis method different than those traditionally used on high-agreement datasets. In order to achieve a more evenly distributed labeling system, this paper uses a weighted mean and a variety of methods to determine the ideal set of weights, and then compares performance on dataset with the regular mean.
+Humor is an inherently subjective matter, as can be seen in the Humicroedit dataset's annotator grades which diverge greatly for higher averages, which this paper suggests might require an annotation analysis method different than those traditionally used on high-agreement datasets. In order to achieve a more evenly distributed labeling system, this paper tests a variety of annotator weights and a variety of methods to determine the ideal set of weights, and then compares performance on dataset with the regular mean.
 }
 
 \begin{document}
@@ -32,6 +32,7 @@ Humor is an inherently subjective matter, as can be seen in the Humicroedit data
 \maketitleabstract
 
 \section{Introduction}
+\label{sec:intro}
 
 Artificial intelligence has been making major strides recently both in terms of development and practical usage, especially with the advent of LLMs such as ChatGPT as well as stable diffusion models such as Midjourney. However, certain tasks still remain outside its grasp. 
 
@@ -41,23 +42,25 @@ One large problem in this field of study is bias, because humor is as subjective
 
 There are two common approaches to this problem in terms of reducing domain size and therefore annotator bias, one being to focus on a specific domain (TODO: insert citations) and the other being to focus on a specific research topic.
 
-\subsection{Humicroedit}
-\label{sec:HME}
-
 The underlying paper of this paper, \textit{“President Vows to Cut Taxes Hair”:
-Dataset and Analysis of Creative Text Editing for Humorous Headlines} (Hossain et al., 2019), provides one dataset that is an example of the latter. A lot of care was put into 
+Dataset and Analysis of Creative Text Editing for Humorous Headlines} (Hossain et al., 2019), provides one dataset that is an example of the latter. A lot of care was put into eliminating annotator bias. However, as this paper suggests, these efforts might prove futile as humor is an inherently subjective activity unsuitable for such approaches.
+
+In particular, this paper suggests alternative approaches to arithmetic mean when combining annotator grades, such as only considering top 2 grades or assigning custom weights to annotator scores.
 
 \section{Related Work}
+Alongside Humicroedit, there are other works such as A Large Self-Annotated Corpus for Sarcasm (Khodak et al., 2017), with a corpus that makes Humicroedit pale in comparison (1.3 million sarcastic statements - 10 times more than any previous dataset - and many times more instances of non-sarcastic statements),
+Semi-Supervised Recognition of Sarcastic Sentences in Twitter and Amazon, and Modelling Sarcasm in Twitter, a Novel Approach. However, this paper focuses entirely on Humicroedit and its attempt to curb annotator bias.
 
 
+\section{Humicroedit annotation methods}
 
+The Humicroedit dataset includes a list of 5, 10, or 15 annotator scores, with a vast majority only having 5 scores. However, a more manageable featureset was provided alongside it, featuring 5 annotator scores for every entry. These scores are integers from 0 to 3, and they are sorted in ascending order.
 
+Unfortunately, these annotator sets do not appear to connect to individual annotators, making it difficult to model annotator profiles.
 
-\section{Humicroedit data properties}
-As mentioned in~\ref{sec:HME}, Humicroedit was designed with an intention of . However, as noted in the paper, despite the writers' effort of carefully qualifying annotators, their perception of headlines in regards of humor present was influenced by their knowledge, preferences, 
-Despite us carefully qualifying annotators, their
-knowledge, preferences, bias and stance towards information presented in headlines influence whether they perceive a potentially funny
-headline as humorous, offensive, confusing, etc.
+\subsection{Annotation data properties}
+ 
+As mentioned in~\ref{sec:intro}, Humicroedit was designed with an intention of minimizing annotator bias.. However, as noted in the paper, despite the writers' effort of carefully qualifying annotators, their perception of headlines in regards of humor present was influenced by their knowledge, preferences, bias and stance towards information presented in the headlines.
 
 \begin{figure}
 \begin{center}
@@ -70,7 +73,7 @@ headline as humorous, offensive, confusing, etc.
 This bias is best seen in the annotator vote distribution, as lower mean scores are closer to unanimous than higher mean scores (as well as more common) as seen in Figure~\ref{fig:figure1}.
 
 
-Annotator bias presents itself in topic frequency, as seen by one topic that appears in dataset entries more often than any other, as seen in Figure~\ref{fig:figure2} at 39 percent of the total dataset size.
+Annotator bias may also be presenting itself in topic frequency, as seen by one topic that appears in dataset entries more often than any other, as seen in Figure~\ref{fig:figure2} at 39 percent of the total dataset size.
 
 \begin{figure}
 \begin{center}
@@ -80,20 +83,11 @@ Annotator bias presents itself in topic frequency, as seen by one topic that app
 \end{center}
 \end{figure}
 
-However, it does not appear that this topic has a notable difference 
-\begin{figure}
-\begin{center}
-\includegraphics[width=\columnwidth]{t vote distribution.pdf}
-\caption{Distribution of votes for most common topic.}
-\label{fig:figure1}
-\end{center}
-\end{figure}
-
 
 
 \section{Distribution measurement methods}
 In order to effectively choose our weights, visual confirmation will not be a sufficient measure.
-In this paper we shall use 4 different methods of determining how even is the label distribution: the Chi-Square uniformity test, the Kolmogorov-Smirnov uniformity test, the Cramér-von Mises uniformity test, and a custom uniformity test developed specifically for this purpose.
+In this paper we shall use 4 different methods of determining how even is the label distribution: the Chi-Square uniformity test, the Cramér-von Mises uniformity test, and a custom uniformity test developed specifically for this purpose.
 \subsection{Custom uniformity test}
 The custom uniformity test is based on the method we used to display unevenly wide histogram bars:
 
@@ -136,13 +130,11 @@ sme_{adjusted} = sme/(lim_i+1 - lim_i)*d_{total}^2
 \end{equation}
 \end{enumerate}
 
-\subsection{Unweighted arithmetic mean}
-First, we will determine the base distribution values by testing them on the provided labels, and the result of this are visible in Table 1.
+\subsection{Unweighted arithmetic mean (reference values)}
 
-Unfort
 \begin{table}
 \caption{Using methods on standard mean}
-\label{tab:narrow-table}
+\label{tab:t1}
 \begin{center}
 \begin{tabular}{ll}
 \toprule
@@ -150,82 +142,88 @@ Method & Result \\
 \midrule
 Custom Uniformity & 4.350 \\
 Chi Square Uniformity & 5114.936 \\
-Kolmogorov-Smirnov Uniformity & 0.0 (error) \\
 Cramér-von Mises Uniformity & 1056.477 \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
+First, we will determine the base distribution values by testing them on the provided labels, and the results of this are visible in Table~\ref{tab:t1}.
 
-\section{Figures and tables}
+These values will be useful once we compare the alternative methods to them.
 
-\subsection{Figures}
-
-Here is an example on how to include figures in the paper. Figures are included in \LaTeX{} code immediately \textit{after} the text in which these figures are referenced. Allow \LaTeX{} to place the figure where it believes is best (usually on top of the page of at the position where you would not place the figure). Figures are referenced as follows: ``Figure shows \dots''. Use tilde (\verb.~.) to prevent separation between the word ``Figure'' and its enumeration. 
-
-\subsection{Tables}
-
-There are two types of tables: narrow tables that fit into one column and a wide table that spreads over both columns.
-
-\subsubsection{Narrow tables}
-
-Table~\ref{tab:narrow-table} is an example of a narrow table. Do not use vertical lines in tables -- vertical tables have no effect and they make tables visually less attractive. We recommend using \textit{booktabs} package for nicer tables.
-
-\begin{table}
-\caption{This is the caption of the table. Table captions should be placed \textit{above} the table.}
-\label{tab:narrow-table}
-\begin{center}
-\begin{tabular}{ll}
-\toprule
-Heading1 & Heading2 \\
-\midrule
-One & First row text \\
-Two   & Second row text \\
-Three   & Third row text \\
-      & Fourth row text \\
-\bottomrule
+\section{Alternatives to simple aritmethic mean}
+\subsection{Masking some of the annotator scores}
+\begin{table}[ht]
+\centering
+\caption{Custom uniformity}
+\begin{tabular}{|c|c|}
+\hline
+Data & Score \\
+\hline
+$[0, 0, 0, 0, 1]$ & 0.08799030892017554 \\
+$[0, 0, 0, 1, 1]$ & 0.33966016048738895 \\
+$[0, 0, 1, 1, 1]$ & 1.0731863586989547 \\
+$[0, 1, 1, 1, 1]$ & 2.3659776653569025 \\
+$[1, 1, 1, 1, 1]$ & 4.35032891060602 \\
+\hline
 \end{tabular}
-\end{center}
+\label{tab:custom-uniformity}
 \end{table}
 
-\subsection{Wide tables}
-
-Table~\ref{tab:wide-table} is an example of a wide table that spreads across both columns. The same can be done for wide figures that should spread across the whole width of the page. 
-
-\begin{table*}
-\caption{Wide-table caption}
-\label{tab:wide-table}
-\begin{center}
-\begin{tabular}{llr}
-\toprule
-Heading1 & Heading2 & Heading3\\
-\midrule
-A & A very long text, longer that the width of a single column & $128$\\
-B & A very long text, longer that the width of a single column & $3123$\\
-C & A very long text, longer that the width of a single column & $-32$\\
-\bottomrule
+\begin{table}[ht]
+\centering
+\caption{Chi-Square uniformity}
+\begin{tabular}{|c|c|}
+\hline
+Data & Score \\
+\hline
+$[0, 0, 0, 1, 0]$ & 529.4772757387041 \\
+$[0, 1, 0, 0, 1]$ & 79.14734331522459 \\
+$[0, 0, 1, 1, 1]$ & 268.4623029018153 \\
+$[0, 1, 1, 1, 1]$ & 1218.7307539419637 \\
+$[1, 1, 1, 1, 1]$ & 5114.936593122639 \\
+\hline
 \end{tabular}
-\end{center}
-\end{table*}
+\label{tab:chi-square-uniformity}
+\end{table}
 
-\section{Math expressions and formulas}
+\begin{table}[ht]
+\centering
+\caption{Cramer-Von Mises uniformity}
+\begin{tabular}{|c|c|}
+\hline
+Data & Score \\
+\hline
+$[0, 0, 1, 0, 0]$ & 1443.0052556034009 \\
+$[1, 0, 1, 0, 0]$ & 461.4334768687203 \\
+$[1, 1, 0, 1, 0]$ & 238.48263957896285 \\
+$[1, 1, 1, 1, 0]$ & 280.72257922049243 \\
+$[1, 1, 1, 1, 1]$ & 1056.4771337087336 \\
+\hline
+\end{tabular}
+\label{tab:cramer-von-mises-uniformity}
+\end{table}
+
+First, we are going to use simple masking by only using certain annotator scores. Score masks are denoted as follows:
+$[0,1,0,1,0]$, 0 and 1 used to mark ignored and considered scores respectively.
+
+In this test, 31 ($2^5 -1 $) possible combinations are tested, sorted by result, divided into groups by number of scores used, and best result of each group is displayed, as lower number of annotator scores used may lead to less reliable results.
+
+In Table~\ref{tab:custom-uniformity}, we can see the custom method produced more/less expected  results, which is to say the highest annotator scores proved to provide the most uniform results.
+
+However, Tables ~\ref{tab:chi-square-uniformity} and ~\ref{tab:cramer-von-mises-uniformity} tell a different story as not only do their scores give better scores for multiple annotators, 
+\section{Future work}
+Unfortunately, due to time limitations brought upon by unfortunate circumstances and poor planning, we were unable to completely explore this topic. Future work in this line of reseach may involve further optimization of annotator grade weights towards providing more uniform results.
+
+However, we recommend 
+
+\section{Conclusion}
 
 
 
 \section{Referencing literature}
 
-References to other publications should be written in brackets with the last name of the first author and the year of publication, e.g., \citep{chomsky-73}.  Multiple references are written in sequence, one after another, separated by semicolon and without whitespaces in between, e.g., \citep{chomsky-73,chave-64,feigl-58}. References are typically written at the end of the sentence and necessarily before the sentence punctuation.
-
-If the publication is authored by more than one author, only the name of the first author is written, after which abbreviation \emph{et al.}, meaning \emph{et alia}, i.e.,~and others is written as in \citep{johnson-etc}. If the publication is authored by only two authors, then the last names of both authors are written \citep{johnson-howells}.
-
-If the name of the author is incorporated into the text of the sentence, it should not be in the brackets (only the year should be there). E.g.,~``\citet{chomsky-73}
-suggested that \dots''. The difference is whether you reference the publication or the author who wrote it. 
-
-The list of all literature references is given alphabetically at the end of the paper. The form of the reference depends on the type of the bibliographic unit: conference papers,
-\citep{chave-64}, books \citep{butcher-81}, journal articles
-\citep{howells-51}, doctoral dissertations \citep{croft-78}, and book chapters \citep{feigl-58}. 
-
-All of this is automatically produced when using BibTeX. Insert all the BibTeX entries into the file \texttt{tar2023.bib}, and then reference them via their symbolic names.
+Unfortunately, due to compiling difficulties, we are unable to 
 
 \section{Conclusion}
 
@@ -233,7 +231,7 @@ Conclusion is the last enumerated section of the paper. It should not exceed hal
 
 \section*{Acknowledgements}
 
-If suitable, you can include the \textit{Acknowledgements} section before inserting the literature references  in order to thank those who helped you in any way to deliver the paper, but are not co-authors of the paper.
+I would like to thank Gabriel Marinković for helping me try to make this paper.
 
 \bibliographystyle{tar2023}
 \bibliography{tar2023} 
