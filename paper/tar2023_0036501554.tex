@@ -19,7 +19,7 @@
 \address{
 University of Zagreb, Faculty of Electrical Engineering and Computing\\
 Unska 3, 10000 Zagreb, Croatia\\ 
-\texttt{autor1@xxx.hr}, \texttt{\{autor2,autor3\}@zz.com}\\
+\texttt{dc50155@fer.hr}\\
 }
           
          
@@ -160,11 +160,11 @@ These values will be useful once we compare the alternative methods to them.
 \hline
 Data & Score \\
 \hline
-$[0, 0, 0, 0, 1]$ & 0.08799030892017554 \\
-$[0, 0, 0, 1, 1]$ & 0.33966016048738895 \\
-$[0, 0, 1, 1, 1]$ & 1.0731863586989547 \\
-$[0, 1, 1, 1, 1]$ & 2.3659776653569025 \\
-$[1, 1, 1, 1, 1]$ & 4.35032891060602 \\
+$[0, 0, 0, 0, 1]$ & 0.088 \\
+$[0, 0, 0, 1, 1]$ & 0.340 \\
+$[0, 0, 1, 1, 1]$ & 1.073 \\
+$[0, 1, 1, 1, 1]$ & 2.366 \\
+$[1, 1, 1, 1, 1]$ & 4.350 \\
 \hline
 \end{tabular}
 \label{tab:custom-uniformity}
@@ -177,11 +177,11 @@ $[1, 1, 1, 1, 1]$ & 4.35032891060602 \\
 \hline
 Data & Score \\
 \hline
-$[0, 0, 0, 1, 0]$ & 529.4772757387041 \\
-$[0, 1, 0, 0, 1]$ & 79.14734331522459 \\
-$[0, 0, 1, 1, 1]$ & 268.4623029018153 \\
-$[0, 1, 1, 1, 1]$ & 1218.7307539419637 \\
-$[1, 1, 1, 1, 1]$ & 5114.936593122639 \\
+$[0, 0, 0, 1, 0]$ & 529.4771 \\
+$[0, 1, 0, 0, 1]$ & 79.147 \\
+$[0, 0, 1, 1, 1]$ & 268.462 \\
+$[0, 1, 1, 1, 1]$ & 1218.731 \\
+$[1, 1, 1, 1, 1]$ & 5114.937 \\
 \hline
 \end{tabular}
 \label{tab:chi-square-uniformity}
@@ -194,11 +194,11 @@ $[1, 1, 1, 1, 1]$ & 5114.936593122639 \\
 \hline
 Data & Score \\
 \hline
-$[0, 0, 1, 0, 0]$ & 1443.0052556034009 \\
-$[1, 0, 1, 0, 0]$ & 461.4334768687203 \\
-$[1, 1, 0, 1, 0]$ & 238.48263957896285 \\
-$[1, 1, 1, 1, 0]$ & 280.72257922049243 \\
-$[1, 1, 1, 1, 1]$ & 1056.4771337087336 \\
+$[0, 0, 1, 0, 0]$ & 1443.005 \\
+$[1, 0, 1, 0, 0]$ & 461.433 \\
+$[1, 1, 0, 1, 0]$ & 238.483 \\
+$[1, 1, 1, 1, 0]$ & 280.723 \\
+$[1, 1, 1, 1, 1]$ & 1056.477 \\
 \hline
 \end{tabular}
 \label{tab:cramer-von-mises-uniformity}
@@ -214,20 +214,31 @@ In Table~\ref{tab:custom-uniformity}, we can see the custom method produced more
 However, Tables ~\ref{tab:chi-square-uniformity} and ~\ref{tab:cramer-von-mises-uniformity} tell a different story as not only do their scores give better scores for multiple annotators, 
 \section{Future work}
 Unfortunately, due to time limitations brought upon by unfortunate circumstances and poor planning, we were unable to completely explore this topic. Future work in this line of reseach may involve further optimization of annotator grade weights towards providing more uniform results.
+Further work extending on this paper should involve testing in [-1,1] domain using various optimization methods.
 
-However, we recommend 
-
-\section{Conclusion}
+However, we recommend that future studies, instead of attempting to stifle subjectivity in humor recongnition, embrace the inherently subjective nature of humor through methods such as pseudonymous annotator ID in data collection which could facilitate this process.
 
 
 
 \section{Referencing literature}
 
-Unfortunately, due to compiling difficulties, we are unable to 
+Hossain, Nabil; Krumm, John; Gamon, Michael: “President Vows to Cut Taxes Hair”: Dataset and Analysis of Creative Text Editing for Humorous Headlines
+
+Khodak, Mikhail; Saunshi, Nikunj; Vodrahalli, Kiran: A Large Self-Annotated Corpus for Sarcasm
+
+Davidov, Dmitry; Tsur, Oren; Rappoport, Ari: Semi-supervised recognition of sarcasm in Twitter and Amazon
+
+Barbieri, Francesco; Saggion, Horacio; Ronzano, Francesco: Modelling sarcasm in twitter, a novel approach
+
+Reyes, Antonio; Rosso, Paolo; Buscaldi, Davide: From humor recognition to irony detection: The figurative language of social media
 
 \section{Conclusion}
 
-Conclusion is the last enumerated section of the paper. It should not exceed half of a column and is typically split into 2--3 paragraphs. No new information should be presented in the conclusion; this section only summarizes and concludes the paper.
+Humor is one of the tasks that artificial intelligence has the most difficulty in, which is a task made even more difficult by the lack of available datasets. Humicroedit is one of the attempts to provide such a dataset. However, there may be issues with the approach taken by it.
+
+This paper attempted to find a way to acknowledge the inherent subjectivity by assigning weights to annotator scores and evaluating the distributions of resulting labels. Unfortunately, only a basic {0,1} weight domain was tested in this paper, with 31 possible weight sets being tested.
+
+Further work extending on this paper should involve testing in [-1,1] domain using various optimization methods, while future work in the field should, instead of attempting to stifle subjectivity in humor recongnition, embrace the inherently subjective nature of humor through methods such as pseudonymous annotator ID in data collection which could facilitate this process.
 
 \section*{Acknowledgements}
 
